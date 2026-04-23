@@ -5,6 +5,7 @@ import com.bunzo.backend.repository.CategoryRepository;
 import com.bunzo.backend.repository.ProductRepository;
 import com.bunzo.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
@@ -14,6 +15,7 @@ import java.math.BigDecimal;
 
 @Configuration
 @RequiredArgsConstructor
+@Slf4j
 public class DataSeeder implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
@@ -65,6 +67,8 @@ public class DataSeeder implements CommandLineRunner {
             admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRole(Role.ROLE_ADMIN);
             userRepository.save(admin);
+        } else if (userRepository.count() == 0) {
+            log.warn("ADMIN_PASSWORD is not set; no default admin user was seeded.");
         }
     }
 }

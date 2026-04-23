@@ -34,7 +34,7 @@ function BurgerModel() {
           <meshStandardMaterial color={item.color} roughness={0.35} metalness={0.15} />
         </mesh>
       ))}
-      {[...Array(16)].map((_, index) => (
+      {[...Array(10)].map((_, index) => (
         <Float key={index} speed={1.4 + index * 0.05} rotationIntensity={0.8} floatIntensity={0.9}>
           <mesh
             position={[

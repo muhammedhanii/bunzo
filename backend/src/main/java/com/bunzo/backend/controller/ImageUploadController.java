@@ -45,6 +45,9 @@ public class ImageUploadController {
         }
 
         String fileName = StringUtils.cleanPath(file.getOriginalFilename() == null ? "upload" : file.getOriginalFilename());
+        if (fileName.contains("..") || fileName.contains("/") || fileName.contains("\\")) {
+            throw new IllegalArgumentException("Invalid file name");
+        }
         String extension = "";
         int index = fileName.lastIndexOf('.');
         if (index > -1) {

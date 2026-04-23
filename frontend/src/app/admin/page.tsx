@@ -8,12 +8,12 @@ type DraftProduct = {
   imageUrl: string;
 };
 
-type ProductEntry = DraftProduct & { id: number };
+type ProductEntry = DraftProduct & { id: string };
 
 export default function AdminPage() {
   const [draft, setDraft] = useState<DraftProduct>({ name: "", price: "", imageUrl: "" });
   const [products, setProducts] = useState<ProductEntry[]>([
-    { id: 1, name: "Neon Truffle Stack", price: "18.90", imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" },
+    { id: "seed-neon-truffle", name: "Neon Truffle Stack", price: "18.90", imageUrl: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=800&q=80" },
   ]);
 
   const stats = useMemo(
@@ -30,7 +30,7 @@ export default function AdminPage() {
     event.preventDefault();
     if (!draft.name.trim() || !draft.price.trim()) return;
     setProducts((current) => [
-      { id: Date.now(), ...draft, imageUrl: draft.imageUrl || "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80" },
+      { id: crypto.randomUUID(), ...draft, imageUrl: draft.imageUrl || "https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=800&q=80" },
       ...current,
     ]);
     setDraft({ name: "", price: "", imageUrl: "" });
