@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@Slf4j
 public class JwtService {
 
     @Value("${app.jwt.secret}")
@@ -23,6 +26,17 @@ public class JwtService {
 
     @Value("${app.jwt.expiration-ms}")
     private long jwtExpirationMs;
+
+    @PostConstruct
+    void validateSecret() {
+        if (jwtSecret == null || jwtSecret.isBlank()) {
+            throw new IllegalStateException("JWT secret is not configured. Set JWT_SECRET environment variable.");
+        }
+        byte[] keyBytes = getDecodedKeyBytes();
+        if (keyBytes.length < 32) {
+            throw new IllegalStateException("JWT secret must be at least 32 bytes after decoding.");
+        }
+    }
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
@@ -69,12 +83,16 @@ public class JwtService {
     }
 
     private SecretKey getSignInKey() {
-        byte[] keyBytes;
-        try {
-            keyBytes = Decoders.BASE64.decode(jwtSecret);
-        } catch (IllegalArgumentException ignored) {
-            keyBytes = jwtSecret.getBytes(StandardCharsets.UTF_8);
-        }
+        byte[] keyBytes = getDecodedKeyBytes();
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    private byte[] getDecodedKeyBytes() {
+        try {
+            return Decoders.BASE64.decode(jwtSecret);
+        } catch (IllegalArgumentException ignored) {
+            log.warn("JWT secret is not Base64 encoded; using raw UTF-8 bytes fallback.");
+            return jwtSecret.getBytes(StandardCharsets.UTF_8);
+        }
     }
 }

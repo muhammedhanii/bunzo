@@ -12,15 +12,30 @@ export default function CheckoutPage() {
       <h1 className="mb-8 text-4xl font-bold">Checkout</h1>
       <div className="glass-card rounded-3xl p-8">
         <div className="grid gap-4 md:grid-cols-2">
-          <input placeholder="Full Name" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
-          <input placeholder="Email" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
-          <input placeholder="Phone" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
-          <input placeholder="City" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
+          <label className="grid gap-2 text-sm">
+            Full Name
+            <input type="text" placeholder="Full Name" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
+          </label>
+          <label className="grid gap-2 text-sm">
+            Email
+            <input type="email" placeholder="Email" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
+          </label>
+          <label className="grid gap-2 text-sm">
+            Phone
+            <input type="tel" placeholder="Phone" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
+          </label>
+          <label className="grid gap-2 text-sm">
+            City
+            <input type="text" placeholder="City" className="rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]" />
+          </label>
         </div>
-        <textarea
-          placeholder="Delivery Address"
-          className="mt-4 h-32 w-full rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]"
-        />
+        <label className="mt-4 grid gap-2 text-sm">
+          Delivery Address
+          <textarea
+            placeholder="Delivery Address"
+            className="h-32 w-full rounded-xl border border-white/20 bg-white/5 p-3 outline-none focus:border-[#E50914]"
+          />
+        </label>
         <div className="mt-6 flex items-center justify-between">
           <p className="text-xl">Total <span className="text-[#E50914]">${total().toFixed(2)}</span></p>
           <button

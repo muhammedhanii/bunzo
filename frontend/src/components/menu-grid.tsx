@@ -44,7 +44,7 @@ export default function MenuGrid() {
           >
             <Link href={`/product/${product.id}`} className="block">
               <div className="relative h-52">
-                <Image src={product.image} alt={product.name} fill className="object-cover" sizes="(max-width:768px) 100vw, 33vw" />
+                <Image src={product.image} alt={product.name} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
               </div>
             </Link>
             <div className="space-y-3 p-5">

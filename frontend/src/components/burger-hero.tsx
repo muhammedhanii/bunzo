@@ -16,12 +16,12 @@ function BurgerModel() {
 
   const ingredients = useMemo(
     () => [
-      { y: 1.4, color: "#f4c430", scale: [2.5, 0.16, 2.5] as [number, number, number] },
-      { y: 1.15, color: "#6dcf65", scale: [2.6, 0.12, 2.6] as [number, number, number] },
-      { y: 0.88, color: "#6a3f2b", scale: [2.4, 0.22, 2.4] as [number, number, number] },
-      { y: 0.6, color: "#f4c430", scale: [2.2, 0.12, 2.2] as [number, number, number] },
-      { y: 0.36, color: "#8b2f2f", scale: [2.3, 0.2, 2.3] as [number, number, number] },
-      { y: 0.1, color: "#d89a58", scale: [2.7, 0.28, 2.7] as [number, number, number] },
+      { name: "top-bun", y: 1.4, color: "#f4c430", scale: [2.5, 0.16, 2.5] as [number, number, number] },
+      { name: "lettuce", y: 1.15, color: "#6dcf65", scale: [2.6, 0.12, 2.6] as [number, number, number] },
+      { name: "patty", y: 0.88, color: "#6a3f2b", scale: [2.4, 0.22, 2.4] as [number, number, number] },
+      { name: "cheese", y: 0.6, color: "#f4c430", scale: [2.2, 0.12, 2.2] as [number, number, number] },
+      { name: "sauce", y: 0.36, color: "#8b2f2f", scale: [2.3, 0.2, 2.3] as [number, number, number] },
+      { name: "bottom-bun", y: 0.1, color: "#d89a58", scale: [2.7, 0.28, 2.7] as [number, number, number] },
     ],
     [],
   );
@@ -29,7 +29,7 @@ function BurgerModel() {
   return (
     <group ref={group}>
       {ingredients.map((item) => (
-        <mesh key={`${item.y}-${item.color}`} position={[0, item.y, 0]} scale={item.scale} castShadow>
+        <mesh key={item.name} position={[0, item.y, 0]} scale={item.scale} castShadow>
           <cylinderGeometry args={[1, 1, 1, 64]} />
           <meshStandardMaterial color={item.color} roughness={0.35} metalness={0.15} />
         </mesh>

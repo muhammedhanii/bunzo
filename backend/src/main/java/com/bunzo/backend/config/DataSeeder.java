@@ -5,6 +5,7 @@ import com.bunzo.backend.repository.CategoryRepository;
 import com.bunzo.backend.repository.ProductRepository;
 import com.bunzo.backend.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,6 +20,10 @@ public class DataSeeder implements CommandLineRunner {
     private final ProductRepository productRepository;
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    @Value("${app.admin.email:admin@bunzo.com}")
+    private String adminEmail;
+    @Value("${app.admin.password:}")
+    private String adminPassword;
 
     @Override
     public void run(String... args) {
@@ -53,11 +58,11 @@ public class DataSeeder implements CommandLineRunner {
             productRepository.save(p2);
         }
 
-        if (userRepository.count() == 0) {
+        if (userRepository.count() == 0 && !adminPassword.isBlank()) {
             AppUser admin = new AppUser();
             admin.setFullName("Bunzo Admin");
-            admin.setEmail("admin@bunzo.com");
-            admin.setPassword(passwordEncoder.encode("Admin@12345"));
+            admin.setEmail(adminEmail);
+            admin.setPassword(passwordEncoder.encode(adminPassword));
             admin.setRole(Role.ROLE_ADMIN);
             userRepository.save(admin);
         }

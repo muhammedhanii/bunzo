@@ -7,9 +7,6 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
 app:
   jwt:
     secret: YjVuem8tZGVmYXVsdC1qd3Qtc2VjcmV0LXNob3VsZC1iZS1vdmVycmlkZGVuLXNlY3VyZWx5
