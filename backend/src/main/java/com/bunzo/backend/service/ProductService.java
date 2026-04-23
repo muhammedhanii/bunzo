@@ -3,6 +3,7 @@ package com.bunzo.backend.service;
 import com.bunzo.backend.dto.ProductRequest;
 import com.bunzo.backend.entity.Category;
 import com.bunzo.backend.entity.Product;
+import com.bunzo.backend.exception.ResourceNotFoundException;
 import com.bunzo.backend.repository.CategoryRepository;
 import com.bunzo.backend.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
@@ -25,11 +26,13 @@ public class ProductService {
     }
 
     public Product getProduct(Long id) {
-        return productRepository.findById(id).orElseThrow();
+        return productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product not found with id: " + id));
     }
 
     public Product create(ProductRequest request) {
-        Category category = categoryRepository.findById(request.categoryId()).orElseThrow();
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.categoryId()));
         Product product = new Product();
         map(request, product, category);
         return productRepository.save(product);
@@ -37,7 +40,8 @@ public class ProductService {
 
     public Product update(Long id, ProductRequest request) {
         Product product = getProduct(id);
-        Category category = categoryRepository.findById(request.categoryId()).orElseThrow();
+        Category category = categoryRepository.findById(request.categoryId())
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + request.categoryId()));
         map(request, product, category);
         return productRepository.save(product);
     }

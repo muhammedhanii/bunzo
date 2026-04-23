@@ -29,7 +29,7 @@ services:
       DB_URL: jdbc:postgresql://postgres:5432/${POSTGRES_DB:-bunzo}
       DB_USERNAME: ${POSTGRES_USER:-postgres}
       DB_PASSWORD: ${POSTGRES_PASSWORD:-postgres}
-      JWT_SECRET: ${JWT_SECRET:-YjVuem8tZGVmYXVsdC1qd3Qtc2VjcmV0LXNob3VsZC1iZS1vdmVycmlkZGVuLXNlY3VyZWx5}
+      JWT_SECRET: ${JWT_SECRET}
       JWT_EXPIRATION_MS: ${JWT_EXPIRATION_MS:-86400000}
       UPLOAD_DIR: /data/uploads
     volumes:

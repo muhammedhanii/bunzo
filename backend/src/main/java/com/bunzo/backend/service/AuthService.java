@@ -10,6 +10,7 @@ import com.bunzo.backend.security.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -40,7 +41,8 @@ public class AuthService {
 
     public AuthResponse authenticate(AuthRequest request) {
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.email(), request.password()));
-        AppUser user = userRepository.findByEmail(request.email()).orElseThrow();
+        AppUser user = userRepository.findByEmail(request.email())
+                .orElseThrow(() -> new UsernameNotFoundException("User not found for email: " + request.email()));
         String jwtToken = jwtService.generateToken(user);
         return new AuthResponse(jwtToken, user.getId(), user.getFullName(), user.getEmail(), user.getRole());
     }

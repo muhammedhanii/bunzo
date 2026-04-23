@@ -2,6 +2,7 @@ package com.bunzo.backend.service;
 
 import com.bunzo.backend.dto.CategoryRequest;
 import com.bunzo.backend.entity.Category;
+import com.bunzo.backend.exception.ResourceNotFoundException;
 import com.bunzo.backend.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,8 @@ public class CategoryService {
     }
 
     public Category update(Long id, CategoryRequest request) {
-        Category category = categoryRepository.findById(id).orElseThrow();
+        Category category = categoryRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Category not found with id: " + id));
         category.setName(request.name());
         category.setDescription(request.description());
         return categoryRepository.save(category);
